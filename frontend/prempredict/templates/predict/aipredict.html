@@ -1,0 +1,18 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for fixture in fixtures %}
+        <div class="bg-white text-black rounded-md text-lg py-4">
+            <div class="my-4 grid grid-cols-6 m-auto w-11/12">
+                <p id="homescore{{ fixture.id }}" class="w-10 col-span-1 m-auto text-7xl text-center text-blue-900 font-semibold italic">{{ fixture.hometeamscore }}</p>
+                <img src={{ fixture.hometeambadge }} alt="Team Crest" class="w-12 h-12 md:w-16 md:h-16 col-span-1 bg-transparent m-auto" />
+                <div class="col-span-2 grid grid-cols-3 m-auto">
+                    <h3 class="m-auto font-semibold text-xl md:text-2xl">{{ fixture.hometeamname }}</h3>
+                    <h6 class="m-auto">vs</h6>
+                    <h3 class="m-auto font-semibold text-xl md:text-2xl">{{ fixture.awayteamname }}</h3>
+                    <p class="my-1 col-span-3 m-auto text-center text-lg md:text-xl">{{fixture.date}}</p>
+                </div>
+                <img src={{ fixture.awayteambadge }} alt="Team Crest" class="w-12 h-12 md:w-16 md:h-16 bg-transparent m-auto" />
+                <p id="awayscore{{ fixture.id }}" class="w-10 m-auto col-span-1 text-7xl text-center text-blue-900 font-semibold italic">{{ fixture.awayteamscore }}</p>
+            </div>
+        </div>
+    {% endfor %}
+<div>

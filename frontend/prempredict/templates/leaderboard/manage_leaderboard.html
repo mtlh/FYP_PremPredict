@@ -1,0 +1,76 @@
+<h2 class="text-xl mb-2">Create a custom group:</h2>
+<div class="toggle-container w-1/4 shadow-lg text-lg mb-1 pl-10">
+    <label class="toggle-label mr-1" for="toggleCheckbox">Public?</label>
+    <input type="checkbox" id="toggleCheckbox" onchange="toggleValue(this)">
+</div>
+<div class="flex m-auto w-full pl-10">
+    <input id="creategroup_nameInput" placeholder="Enter Name" class="text-black bg-white w-1/2 rounded-l-lg shadow-lg" />
+    <button
+        hx-post="{{ baseurl }}/leaderboard/create" 
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        hx-trigger="click"
+        hx-swap="innerHTML" 
+        hx-target="#custom_group_create_msg"
+        hx-vars="js:{name:getName(), ispublic:getCheckboxValue()}"
+        class="bg-green-400 text-black p-3 rounded-r-lg shadow-lg"
+        >
+        Create
+    </button>
+</div>
+<p id="custom_group_create_msg"></p>
+
+<h2 class="text-xl mb-2 mt-10">Join a custom group with invite code:</h2>
+<div class="flex m-auto w-full pl-10">
+    <input id="joingroup_nameInput" placeholder="Enter invite code" class="text-black bg-white w-1/2 rounded-l-lg shadow-lg" />
+    <button
+        hx-post="{{ baseurl }}/leaderboard/join" 
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        hx-trigger="click"
+        hx-swap="innerHTML"
+        hx-target="#custom_group_join_msg"
+        hx-vars="js:{invitelink:getJoinCode()}"
+        class="bg-green-400 text-black p-3 rounded-r-lg shadow-lg"
+        >
+        Join
+    </button>
+</div>
+<p id="custom_group_join_msg"></p>
+
+<h2 class="text-xl mb-2 mt-10">Leave a custom group:</h2>
+<div class="flex m-auto w-full pl-10">
+    <select id="leaderboardSelect" name="currentLeaderboards" class="w-1/2 text-black rounded-l-lg shadow-lg">
+        {% for leaderboard in user_leaderboards %}
+            <option value="{{ leaderboard.invcode }}">{{ leaderboard.name }}</option>
+        {% endfor %}
+    </select>
+    <button
+        hx-post="{{ baseurl }}/leaderboard/leave" 
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        hx-trigger="click"
+        hx-swap="innerHTML"
+        hx-target="#custom_group_leave_msg"
+        hx-vars="js:{invitelink:getLeaveGroup()}"
+        class="bg-red-400 text-black p-3 rounded-r-lg shadow-lg"
+        >
+        Leave
+    </button>
+</div>
+<p id="custom_group_leave_msg"></p>
+
+<script>
+    function getLeaveGroup () {
+        return document.getElementById('leaderboardSelect').value
+    }
+    function getName() {
+        return document.getElementById("creategroup_nameInput").value
+    }
+    function toggleValue(checkbox) {
+        checkbox.value = checkbox.checked ? 1 : 0;
+    }
+    function getCheckboxValue() {
+        return document.getElementById("toggleCheckbox").value
+    }
+    function getJoinCode(){ 
+        return document.getElementById("joingroup_nameInput").value
+    }
+</script>

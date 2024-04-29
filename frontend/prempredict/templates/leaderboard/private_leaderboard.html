@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 gap-6">
+    {% for leaderboard in private_user_leaderboards %}
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full bg-white text-black">
+            <div class="flex flex-col space-y-1.5 p-4 pb-0">
+                <h3 class="font-semibold whitespace-nowrap tracking-tight text-2xl">{{ leaderboard.name }}</h3>
+                <p class="text-sm text-muted-foreground">
+                    Invite code: <b>{{ leaderboard.invcode }}</b>
+                </p>
+            </div>
+            <div class="p-0">
+                <div class="relative w-full overflow-auto">
+                    <table class="w-full caption-bottom text-sm">
+                        <tbody class="[&amp;_tr:last-child]:border-0 divide-y">
+                            <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-10">Overall Position</td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold">Username</td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-28">
+                                    <div class="font-semibold">Score</div>
+                                </td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-28">
+                                    <div class="font-semibold">Result%</div>
+                                </td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-28">
+                                    <div class="font-semibold">Correct%</div>
+                                </td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-28">
+                                    <div class="font-semibold">Average GW</div>
+                                </td>
+                                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-72">
+                                    <div class="font-semibold">Last updated</div>
+                                </td>
+                            </tr>
+                            {% for user_info in leaderboard.user_info %}
+                                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-6">{{ user_info.position }}</td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold">{{ user_info.user_name }}</td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-24">
+                                        <div class="font-semibold">{{ user_info.score }} pts</div>
+                                    </td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-6">
+                                        <div class="font-semibold">{{ user_info.result_accuracy }}%</div>
+                                    </td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-6">
+                                        <div class="font-semibold">{{ user_info.correct_accuracy }}%</div>
+                                    </td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-24">
+                                        <div class="font-semibold">{{ user_info.average_gw_score }} pts</div>
+                                    </td>
+                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-72">
+                                        <div class="font-semibold">{{ user_info.user_recent_update }}</div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

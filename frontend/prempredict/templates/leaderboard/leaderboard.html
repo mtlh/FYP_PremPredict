@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PremPredict - Leaderboard{% endblock %}
+
+{% block content %}
+    
+    <div class="m-auto my-4 bg-slate-900 text-white rounded p-2">
+        <button id="overallleaderboard" class="bg-slate-200 text-black p-2 rounded"
+            aria-label="Overall Leaderboard Toggle"
+            hx-trigger="click"
+            hx-get = "{{ baseurl }}/leaderboard/overall"
+            hx-swap="innerHTML" 
+            hx-target="#leaderboardcontainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle(1)"
+        >
+            Overall Leaderboard
+        </button>
+        <button id="publicgroup" class="p-2"
+            aria-label="Public Group Toggle"
+            hx-get = "{{ baseurl }}/leaderboard/public"
+            hx-trigger="click"
+            hx-swap="innerHTML" 
+            hx-target="#leaderboardcontainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle(2)"
+        >
+            Public Groups
+        </button>
+        <button id="privategroup" class="p-2"
+            aria-label="Private Group Toggle"
+            hx-get = "{{ baseurl }}/leaderboard/private"
+            hx-trigger="click"
+            hx-swap="innerHTML" 
+            hx-target="#leaderboardcontainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle(3)"
+        >
+            Private Groups
+        </button>
+        <button id="managegroup" class="p-2"
+            aria-label="Manage Group Toggle"
+            hx-get = "{{ baseurl }}/leaderboard/manage"
+            hx-trigger="click"
+            hx-swap="innerHTML" 
+            hx-target="#leaderboardcontainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle(4)"
+        >
+            Manage Groups
+        </button>
+    </div>
+
+    {% include 'extras/spinner.html' %}
+
+    <div id="leaderboardcontainer" class="grid grid-cols-1 m-auto">
+        {% include 'extras/spinner_visible_large.html' %}
+    </div>
+
+    <script defer>
+        (async function () {
+            const response = await fetch("{{ baseurl }}/leaderboard/overall");
+            const data = await response.text();
+            document.getElementById("leaderboardcontainer").innerHTML = data;
+        })();
+
+        async function changeTabToggle(tabNumber) {
+            if (tabNumber === 1) {
+                document.getElementById("overallleaderboard").classList.add('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("publicgroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("privategroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("managegroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+            } else if (tabNumber === 2) {
+                document.getElementById("publicgroup").classList.add('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("overallleaderboard").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("privategroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("managegroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+            } else if (tabNumber === 3) {
+                document.getElementById("privategroup").classList.add('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("overallleaderboard").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("publicgroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("managegroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+            } else if (tabNumber === 4) {
+                document.getElementById("managegroup").classList.add('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("overallleaderboard").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("publicgroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+                document.getElementById("privategroup").classList.remove('bg-slate-200', 'text-black', 'rounded');
+            }
+        }
+        
+    </script>
+
+{% endblock %}

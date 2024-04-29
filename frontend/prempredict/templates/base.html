@@ -1,0 +1,181 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Premier League Predictions">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="{% static 'prem_logo.svg' %}" />
+		<title>{% block title %}PremPredict{% endblock %}</title>
+
+		{% comment %} <link href="{% static 'css/tailwind.css' %}" rel="stylesheet"> {% endcomment %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script defer src="https://unpkg.com/htmx.org@1.9.4"></script>
+	</head>
+	<style>
+		:root {
+			--accent: 136, 58, 234;
+			--accent-light: 224, 204, 250;
+			--accent-dark: 49, 10, 101;
+			--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+		}
+		html {
+			font-family: system-ui, sans-serif;
+			background: #13151A;
+			background-size: 224px;
+		}
+		code {
+			font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+				Bitstream Vera Sans Mono, Courier New, monospace;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		li {
+			list-style: none;
+		}
+		a {
+			text-decoration: none;
+		}
+		.header{
+			border-bottom: 1px solid #E2E8F0;
+		}
+		.navbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1rem 1.5rem;
+		}
+		.hamburger {
+			display: none;
+		}
+		.bar {
+			display: block;
+			width: 25px;
+			height: 3px;
+			margin: 5px auto;
+			-webkit-transition: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+			background-color: #FFFFFF;
+		}
+		.nav-menu {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.nav-item {
+			margin-left: 2rem;
+		}
+		.nav-link{
+			font-weight: 200;
+		}
+		.nav-logo {
+			font-size: 2.1rem;
+			font-weight: 500;
+		}
+		@media only screen and (max-width: 1024px) {
+			.nav-menu {
+				position: fixed;
+				left: -100%;
+				top: 5rem;
+				flex-direction: column;
+				width: 100%;
+				border-radius: 10px;
+				text-align: center;
+				transition: 0.3s;
+				box-shadow:
+					0 10px 27px rgba(0, 0, 0, 0.05);
+			}
+			.nav-menu.active {
+				left: 0;
+			}
+			.nav-item {
+				margin: 2.5rem 0;
+			}
+			.hamburger {
+				display: block;
+				cursor: pointer;
+			}
+			.hamburger.active .bar:nth-child(2) {
+				opacity: 0;
+			}
+			.hamburger.active .bar:nth-child(1) {
+				transform: translateY(8px) rotate(45deg);
+			}
+			.hamburger.active .bar:nth-child(3) {
+				transform: translateY(-8px) rotate(-45deg);
+			}
+		}
+	</style>
+	<body class="bg-gray-950 text-white text-md">
+		{% block sidebar %}
+			<header class="header m-auto xl:max-w-7xl lg:max-w-5xl md:max-w-3xl max-w-xl">
+				<nav class="navbar">					
+					<a href="/" class="nav-logo text-white flex m-auto md:m-0">
+						<img src="{% static 'prem_logo.png' %}" alt="Premier League Emblem" width="640" height="360" class="w-8 md:w-12 mr-2" />
+						<h1 class="m-auto text-2xl md:text-3xl" style="padding-left:0.5rem">PremPredict</h1>
+					</a>
+					<ul class="nav-menu z-40 text-white text-md md:text-lg lg:text-xl bg-gray-950">
+						<li class="nav-item">
+							<a href="/predict" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Predict</a>
+						</li>
+						<li class="nav-item">
+							{% if isauth %}
+								<a href="/scores" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Your Scores</a>
+								{% else %}
+								<a href="/scores" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Scores</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							<a href="/leaderboard" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Leaderboard</a>
+						</li>
+						<li class="nav-item">
+							<a href="/table" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Table</a>
+						</li>
+						<li class="nav-item">
+							{% if isauth %}
+								<a href="/profile" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Profile</a>
+								{% else %}
+								<a href="/login" class="nav-link text-gray-200 text-2xl md:text-xl hover:text-white">Login</a>
+							{% endif %}
+						</li>
+					</ul>
+					<div class="hamburger text-white">
+						<span class="bar"></span>
+						<span class="bar"></span>
+						<span class="bar"></span>
+					</div>
+				</nav>
+			</header>
+        {% endblock %}
+		<div id="content" class="min-h-screen m-auto xl:max-w-7xl lg:max-w-5xl md:max-w-3xl max-w-xl">
+            {% block content %}{% endblock %}
+        </div>
+	</body>
+</html>
+<script>
+	const hamburger = document.querySelector(".hamburger");
+	const navMenu = document.querySelector(".nav-menu");
+	let isScrollLocked = true;
+
+	hamburger.addEventListener("click", mobileMenu);
+
+	function mobileMenu() {
+		hamburger.classList.toggle("active");
+		navMenu.classList.toggle("active");
+		isScrollLocked = !isScrollLocked
+		if (isScrollLocked) { document.body.style.overflow = 'auto';
+		} else { document.body.style.overflow = 'hidden'; }
+	}
+
+	const navLink = document.querySelectorAll(".nav-link");
+	navLink.forEach(n => n.addEventListener("click", closeMenu));
+
+	function closeMenu() {
+		hamburger.classList.remove("active");
+		navMenu.classList.remove("active");
+	}
+</script>

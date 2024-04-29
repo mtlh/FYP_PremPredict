@@ -1,0 +1,46 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for fixture in fixtures %}
+        <div class="w-full max-w-2xl bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="flex items-center justify-between px-4 md:px-6 py-4 bg-gray-100 dark:bg-gray-900">
+                <div class="flex items-center">
+                    <img
+                        src={{ fixture.hometeambadge }}
+                        alt="Home-Team Badge"
+                        width="50"
+                        height="50"
+                        class="mr-3"
+                        style="aspect-ratio: 50 / 50; object-fit: cover;"
+                    />
+                    <div class="font-bold text-lg lg:text-2xl text-gray-900 dark:text-white">{{ fixture.hometeamname }}</div>
+            </div>
+            <div class="text-center text-md text-gray-600 dark:text-gray-400">
+                <div class="text-center text-4xl font-bold text-gray-900 dark:text-white">{{ fixture.hometeamscore }} - {{ fixture.awayteamscore }}</div>
+                <span>{{fixture.date}}</span>
+            </div>
+            <div class="flex items-center">
+                <div class="font-bold text-lg lg:text-2xl text-gray-900 dark:text-white">{{ fixture.awayteamname }}</div>
+                <img
+                    src={{ fixture.awayteambadge }}
+                    alt="Away-Team Badge"
+                    width="50"
+                    height="50"
+                    class="ml-3"
+                    style="aspect-ratio: 50 / 50; object-fit: cover;"
+                />
+            </div>
+            </div>
+            <div class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                <div class="text-center text-xl font-bold text-gray-900 dark:text-white">Prediction</div>
+                <div class="text-center text-2xl text-gray-900 dark:text-white mt-2">{{fixture.prediction_home}} - {{fixture.prediction_away}}</div>
+                <div class="text-center text-sm text-gray-600 dark:text-gray-400">Score: {{fixture.prediction_score}}</div>
+            </div>
+        </div>
+    {% endfor %}
+    <div></div>
+    <div class="relative">
+        <a href="/scores" class="mb-10 inline-flex items-center justify-center text-[14px] hover:scale-105 origin-center transition duration-300 rainbowBorder w-48 absolute top-0 right-0 ">
+            <span class="inline-flex items-center gap-1 whitespace-nowrap px-3 py-1">View more recent results</span>
+            <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+        </a> 
+    </div>
+</div>

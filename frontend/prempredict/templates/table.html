@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PremPredict - Table{% endblock %}
+
+{% block content %}
+    {% comment %} <link href="{% static 'css/table.css' %}" rel="stylesheet"> {% endcomment %}
+    
+    <div class="text-sm md:text-lg text-black bg-white rounded-lg mt-2">
+        <div class="grid md:grid-cols-11 grid-cols-9 gap-2 m-auto rounded-3xl font-semibold">
+            <p class="md:p-4 m-auto">Rank</p>
+            <p class="flex md:p-4 md:col-span-4 col-span-2 text-left">Team</p>
+            <h1 class="md:p-4 m-auto">Played</h1>
+            <h1 class="md:p-4 m-auto">Won</h1>
+            <h1 class="md:p-4 m-auto">Draw</h1>
+            <h1 class="md:p-4 m-auto">Loss</h1>
+            <h1 class="md:p-4 m-auto">GD</h1>
+            <h1 class="md:p-4 m-auto">Pts</h1>
+        </div>
+        {% for teamdata in tabledata %}
+            {% if teamdata.position == 1 %}
+                <p class="border-b border-dashed border-gray-300 h-1 w-full xl:max-w-7xl lg:max-w-4xl md:max-w-3xl max-w-xl"></p>
+            {% endif %}
+            <div class="grid md:grid-cols-11 grid-cols-9 gap-2">
+                <div class="md:p-4 m-auto">{{teamdata.position}}</div>
+                <img src={{ teamdata.badge }} alt="Team Crest" class="bg-transparent m-auto 
+                    md:w-12 md:h-12 w-8 h-8" />
+                <div class="md:p-4 md:col-span-3 text-left">{{ teamdata.name }}</div>
+                <div class="md:p-4 m-auto">{{ teamdata.played }}</div>
+                <div class="md:p-4 m-auto">{{ teamdata.win }}</div>
+                <div class="md:p-4 m-auto">{{ teamdata.draw }}</div>
+                <div class="md:p-4 m-auto">{{ teamdata.loss }}</div>
+                <div class="md:p-4 m-auto">{{ teamdata.goaldifference }}</div>
+                <div class="md:p-4 m-auto font-bold">{{ teamdata.points }}</div>
+            </div>
+            {% if teamdata.position == 4 %}
+                <p class="border-t-2 border-double border-blue-500 h-1 w-full xl:max-w-7xl lg:max-w-4xl md:max-w-3xl max-w-xl"></p>
+            {% endif %}
+            {% if teamdata.position == 5 %}
+                <p class="border-t-2 border-double border-green-500 h-1 w-full xl:max-w-7xl lg:max-w-4xl md:max-w-3xl max-w-xl"></p>
+            {% endif %}
+            {% if teamdata.position == 17 %}
+                <hr class="border-t-2 border-double border-red-500 h-1 w-full xl:max-w-7xl lg:max-w-4xl md:max-w-3xl max-w-xl"></hr>
+            {% endif %}
+            {% if teamdata.position != 17 and teamdata.position != 5 and teamdata.position != 4 %}
+                <hr class="border-t border-dashed border-gray-300 h-1 w-full xl:max-w-7xl lg:max-w-4xl md:max-w-3xl max-w-xl"></hr>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

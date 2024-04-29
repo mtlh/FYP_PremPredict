@@ -1,0 +1,95 @@
+<div class="flex flex-col w-full">
+    <div class="rounded-lg border shadow-sm">
+        <div class="relative w-full overflow-auto">
+            <table class="w-full caption-bottom bg-white rounded-lg text-black">
+                <thead class="[&amp;_tr]:border-b text-lg">
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center">
+                        <th class="h-12 px-4 align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 1%;">
+                            Rank
+                        </th>
+                        <th class="h-8 px-4 text-left align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 20%;">
+                            User
+                        </th>
+                        <th class="h-12 px-4 align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 8%;">
+                            Latest Gameweek
+                        </th>
+                        <th class="h-12 px-4 align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 8%;">
+                            Result Accuracy (>=2pts)
+                        </th>
+                        <th class="h-12 px-4 align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 8%;">
+                            Score Accuracy (5pts)
+                        </th>
+                        <th class="h-12 px-4 lign-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 8%;">
+                            Average Gameweek Score
+                        </th>
+                        <th class="h-12 px-4 align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 8%;">
+                            Overall Score
+                        </th>
+                        <th class="h-12 px-4 text-left align-middle font-medium [&amp;:has([role=checkbox])]:pr-0" style="width: 15%;">
+                            Last Updated
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="[&amp;_tr:last-child]:border-0 text-md">
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center">
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold py-1">
+                            N/A
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 text-left py-4">
+                            Algorithm Predictions
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                            {{ ai_record_latestgameweek }}
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                            {{ ai_record_result_accuracy }}%
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                            {{ ai_record_correct_accuracy }}%
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                            {{ ai_record_average_gw_score }}
+                        </td>
+                        <td class="align-middle font-bold [&amp;:has([role=checkbox])]:pr-0 py-1">
+                            {{ ai_record_score }}
+                        </td>
+                        <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 text-left py-1">
+                            {{ ai_record_updated }}
+                        </td>
+                    </tr>
+                    {% for user in users %}
+                        <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center">
+
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold py-1">
+                                {{ user.position }}
+                            </td>
+                            {% if auth_username == user.name %}
+                                <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 text-left font-bold py-4">YOU</td>
+                            {% else %}
+                                <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 text-left py-1">{{ user.name }}</td>
+                            {% endif %}
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                                {{ user.latestgameweek }}
+                            </td>
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                                {{ user.result_accuracy }}%
+                            </td>
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                                {{ user.correct_accuracy }}%
+                            </td>
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 py-1">
+                                {{ user.average_gw_score }}
+                            </td>
+                            <td class="align-middle font-bold [&amp;:has([role=checkbox])]:pr-0 py-1">
+                                {{ user.overallscore }}
+                            </td>
+                            <td class="align-middle [&amp;:has([role=checkbox])]:pr-0 text-left py-1">
+                                {{ user.updated }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}PremPredict - Admin{% endblock %}
+
+{% block content %}
+{% if isauth %}
+<div class="rounded-lg shadow-sm w-full mt-4">
+    <div class="flex flex-col space-y-1.5 p-2">
+        <h3 class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Update API loaders</h3>
+        <p class="text-sm text-muted-foreground">
+            Press the refresh button to update the route
+        </p>
+    </div>
+    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for endpoint in endpoints %}
+        <div class="grid gap-1">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500 dark:text-gray-400">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+                <span>{{ endpoint.url }}</span>
+                <button class="bg-black text-white p-2 rounded ml-auto focus:outline-none focus:shadow-outline-blue"
+                    hx-indicator={{ endpoint.targetspinner }}
+                    hx-get={{ endpoint.url }}
+                    hx-trigger="click"
+                    hx-target={{ endpoint.targetid }}
+                    hx-swap="innerHTML"
+                >
+                    Update <span class="mr-2">↻</span>
+                </button>
+            </div>
+            <div class="grid gap-1 ml-6">
+                <span class="text-sm font-medium">{{ endpoint.method }}</span>
+                <div class="bg-gray-100 p-2 rounded-md text-black">
+                    <pre id={{ endpoint.id }} class="whitespace-normal text-sm">
+                    Update to see output here...
+                    </pre>
+                    <svg id={{ endpoint.spinner }} class="htmx-indicator animate-spin h-8 w-8 text-black m-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-dasharray="30 60" transform="rotate(165.277 12 12)">
+                            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1.5s" repeatCount="indefinite" />
+                        </circle>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

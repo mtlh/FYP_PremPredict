@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}PremPredict - Predict{% endblock %}
+
+{% block content %}
+    <div class="m-auto my-4 bg-slate-900 text-white rounded p-2">
+        <button id="humanpredict" class="bg-slate-200 text-black p-2 rounded"
+            aria-label="User Predictions Toggle"
+            hx-trigger="click"
+            hx-get = "{{ baseurl }}/predict/human"
+            hx-swap="innerHTML" 
+            hx-target="#predictContainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle()"
+        >
+            Your Predictions
+        </button>
+        <button id="aipredict" class="p-2"
+            aria-label="Algorithm Predictions Toggle"
+            hx-get = "{{ baseurl }}/predict/ai"
+            hx-trigger="click"
+            hx-swap="innerHTML" 
+            hx-target="#predictContainer"
+            hx-indicator="#spinner"
+            onclick="changeTabToggle()"
+        >
+            Algorithm Predictions
+        </button>
+    </div>
+
+    {% include 'extras/spinner.html' %}
+
+    <div class="grid grid-cols-2 text-xl my-6">
+        <h2 class="underline pl-4 md:pl-0">Matchday {{ matchday }}</h2>
+        <p class="text-right pr-4 md:pr-0">Submit by {{ deadline }}</p>
+    </div>
+
+    <div id="predictContainer" class="grid grid-cols-1 m-auto">
+        {% include 'extras/spinner_visible_large.html' %}
+    </div>
+
+    <script defer>
+        var currentMatchday;
+        (async function () {
+            const response = await fetch("{{ baseurl }}/predict/human");
+            const data = await response.text();
+            document.getElementById("predictContainer").innerHTML = data;
+        })();
+        
+        function changeTabToggle() {
+            var aipredict_classes = document.getElementById("aipredict").className;
+            document.getElementById("aipredict").className = document.getElementById("humanpredict").className;
+            document.getElementById("humanpredict").className = aipredict_classes;
+        }
+
+        function minusscore( targetid ) {
+            var element = document.getElementById(targetid);
+            if (element) {
+                var currentScore = parseInt(element.textContent || element.innerText, 10);
+                if (!isNaN(currentScore)) {
+                    var newScore = currentScore - 1;
+                    if (newScore >= 0) {
+                        element.textContent = newScore;
+                        element.innerText = newScore;
+                    }
+                }
+            }
+        }
+        function addscore( targetid ) {
+            var element = document.getElementById(targetid);
+            if (element) {
+                var currentScore = parseInt(element.textContent || element.innerText, 10);
+                if (!isNaN(currentScore)) {
+                    var newScore = currentScore + 1;
+                    if (newScore <= 9) {
+                        element.textContent = newScore;
+                        element.innerText = newScore;
+                    }
+                }
+            }
+        }
+
+        function saveUserPrediction() {
+            document.getElementById("result").classList.add("invisible");
+            document.getElementById("spinnercontainer").classList.remove("hidden");
+            document.getElementById("savebuttontext").innerHTML = "";
+            var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+            var elements = document.querySelectorAll('[id^="homescore"],  [id^="awayscore"]');
+            var formData = new FormData();
+            elements.forEach(function (element) {
+                formData.append(element.id, element.innerHTML);
+            });
+
+            fetch('{{ baseurl }}/predict/save', {
+                method: 'POST',  // Specify the desired HTTP method
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("result").innerHTML = data;
+                document.getElementById("result").classList.remove("invisible");
+                document.getElementById("spinnercontainer").classList.add("hidden");
+                document.getElementById("savebuttontext").innerHTML = "Save";
+            })
+            .catch(error => {
+                document.getElementById("result").innerHTML = error;
+                document.getElementById("result").classList.remove("invisible");
+                document.getElementById("spinnercontainer").classList.add("hidden");
+                document.getElementById("savebuttontext").innerHTML = "Save";
+            });
+        }
+    </script>
+
+    <div id="paddingclass" class="pb-20"></div>
+{% endblock %}

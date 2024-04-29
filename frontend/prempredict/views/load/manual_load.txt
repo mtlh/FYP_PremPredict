@@ -1,0 +1,37 @@
+Requests made to:
+https://www.fotmob.com/api/leagues?id=47&ccode3=GBR
+https://api.football-data.org/v4/competitions/PL/matches
+https://api.football-data.org/v4/competitions/PL/standings
+https://fantasy.premierleague.com/api/bootstrap-static/
+
+PROD:
+
+OFFINE:
+https://prempredict.vercel.app/clear/db
+ONLINE AND HIT BY ZEPLO DAILY:
+https://prempredict.vercel.app/load/api
+https://prempredict.vercel.app/load/table/teams
+https://prempredict.vercel.app/load/game/1/4/
+https://prempredict.vercel.app/load/game/5/9/
+https://prempredict.vercel.app/load/game/10/14/
+https://prempredict.vercel.app/load/game/15/19/
+https://prempredict.vercel.app/load/game/20/24/
+https://prempredict.vercel.app/load/game/25/29/
+https://prempredict.vercel.app/load/game/30/34/
+https://prempredict.vercel.app/load/game/35/38/
+
+DEV:
+
+OFFLINE:
+http://127.0.0.1:8000/clear/db
+ONLINE:
+http://127.0.0.1:8000/load/api
+http://127.0.0.1:8000/load/table/teams
+http://127.0.0.1:8000/load/game/1/4/
+http://127.0.0.1:8000/load/game/5/9/
+http://127.0.0.1:8000/load/game/10/14/
+http://127.0.0.1:8000/load/game/15/19/
+http://127.0.0.1:8000/load/game/20/24/
+http://127.0.0.1:8000/load/game/25/29/
+http://127.0.0.1:8000/load/game/30/34/
+http://127.0.0.1:8000/load/game/35/38/

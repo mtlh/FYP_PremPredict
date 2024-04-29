@@ -1,0 +1,50 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    {% for fixture in fixtures %}
+        <div class="bg-white text-black rounded-md text-lg">
+            <div class="my-4 grid grid-cols-6 m-auto w-11/12">
+                <div class="col-span-1 m-auto">
+                    <button class="w-10 h-12 m-auto" onclick="addscore('homescore{{ fixture.id }}')">
+                        <img src="https://super6.skysports.com/content/img/play/plus.svg" alt="plus">
+                    </button>
+                    <p id="homescore{{ fixture.id }}" class="w-10 m-auto text-4xl text-center text-blue-900 font-semibold italic">{{ fixture.hometeamscore }}</p>
+                    <button class="w-10 h-12 m-auto" onclick="minusscore('homescore{{ fixture.id }}')">
+                        <img src="https://super6.skysports.com/content/img/play/minus.svg" alt="minus">
+                    </button>
+                </div>
+                <div class="col-span-4 grid grid-cols-5 m-auto">
+                    <img src={{ fixture.hometeambadge }} alt="Team Crest" class="w-12 h-12 md:w-16 md:h-16 bg-transparent m-auto" />
+                    <h3 class="m-auto font-semibold text-lg md:text-2xl">{{ fixture.hometeamname }}</h3>
+                    <h6 class="m-auto">vs</h6>
+                    <h3 class="m-auto font-semibold text-lg md:text-2xl">{{ fixture.awayteamname }}</h3>
+                    <img src={{ fixture.awayteambadge }} alt="Team Crest" class="w-12 h-12 md:w-16 md:h-16 bg-transparent m-auto" />
+                    <p class="my-1 col-span-5 m-auto text-lg md:text-xl">
+                        {{fixture.date}}
+                    </p>
+                </div>
+                <div class="col-span-1 m-auto">
+                    <button class="w-10 h-10 m-auto" onclick="addscore('awayscore{{ fixture.id }}')">
+                        <img src="https://super6.skysports.com/content/img/play/plus.svg" alt="plus">
+                    </button>
+                    <p id="awayscore{{ fixture.id }}" class="w-10 m-auto text-4xl text-center text-blue-900 font-semibold italic">{{ fixture.awayteamscore }}</p>
+                    <button class="w-10 h-10 m-auto" onclick="minusscore('awayscore{{ fixture.id }}')">
+                        <img src="https://super6.skysports.com/content/img/play/minus.svg" alt="minus">
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="hidden lg:flex"></div>
+
+    {% csrf_token %}
+    <button 
+        onclick="saveUserPrediction()"
+        class="bg-green-400 hover:bg-green-500 transition text-black font-semibold text-2xl rounded-md shadow-md p-2">
+        <p id="savebuttontext">Save</p>
+        <div id="spinnercontainer" class="hidden">
+            {% include 'extras/spinner_visible.html' %}
+        </div>
+    </button>
+    <div></div>
+    <div id="result" class="text-xl"></div>
+
+<div>

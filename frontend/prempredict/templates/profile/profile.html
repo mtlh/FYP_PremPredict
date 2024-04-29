@@ -1,0 +1,127 @@
+<div class="w-full py-6 space-y-6">
+    <div class="container grid items-start gap-4 px-4 md:gap-6 lg:px-6 xl:grid-cols-3 xl:gap-10">
+        <div class="space-y-2 xl:col-span-3">
+        <div class="space-y-2">
+          <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl">{{ username }}'s Season 23/24 Stats</h1>
+          <p class="text-gray-500 dark:text-gray-400">
+            Overall season score, position, prediction amount, percentage of correct predictions, and more.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 xl:grid-cols-3 py-10 gap-6">
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Highest Score</h2>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{highest_score}}
+              <p class="text-sm font-medium">Gameweek {{highest_gw}}</p>
+            </h3>
+          </div>
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Latest Score</h2>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{latest_score}}
+              <p class="text-sm font-medium">Gameweek {{latest_gw}}</p>
+            </h3>
+          </div>
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Season Score</h2>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{season_score}}
+              <p class="text-sm font-medium">Your overall score for the season.</p>
+            </h3>
+          </div>
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Position</h2>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{overall_position}}
+              <p class="text-sm font-medium">Your current position in the leaderboard.</p>
+            </h3>
+          </div>
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Predictions</h2>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{predictions_made}}
+              <p class="text-sm font-medium">How many predictions you've made.</p>
+            </h3>
+          </div>
+          <div class="space-y-4 py-4">
+            <h2 class="text-xl font-bold">Correct Predictions</h3>
+            <h3 class="text-4xl font-medium italic m-auto text-center">
+              {{predictions_correct}}%
+              <p class="text-sm font-medium">Percentage of correct predictions.</p>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 text-black">
+        <div></div>
+        <a href="/logout" class="col-span-2 lg:col-span-1 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-red-300 hover:bg-red-500 hover:text-accent-foreground h-11 rounded-md px-8">
+            Logout
+        </a>
+    </div>
+
+    <section class="mx-auto px-6 pt-12 sm:pt-6 pb-10 max-w-5xl md:max-w-7xl">
+      <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Predicted Table</h2>
+      <div id="upcomingfixturecontainer" class="min-h-96 mt-4 flex items-center">
+          {% include "../extras/spinner_visible_large.html" %}
+      </div>
+    </section>
+
+    <div class="container grid items-start gap-4 px-4 py-8 md:gap-6 lg:px-6 xl:py-12">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl">Support</h2>
+        <p class="text-gray-500 dark:text-gray-400">
+          Have a question about your predictions, stats or leaderboard? Contact us for assistance.
+        </p>
+      </div>
+      <form class="grid w-full gap-4 md:gap-6 xl:gap-8 text-black" method="POST" action="/profile/">
+        {% csrf_token %}
+        <div class="grid grid-cols-2 gap-4">
+          <input
+            id="firstname" name="firstname"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="First name"
+          />
+          <input
+            id="lastname" name="lastname"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Last name"
+          />
+        </div>
+        <input
+            id="email" name="email"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Email"
+            type="email"
+        />
+        <textarea
+            id="msg" name="msg"
+            class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[150px]"
+            placeholder="Your message"
+        ></textarea>
+        <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-800 text-white hover:bg-blue-400 h-11 rounded-md px-8">
+          Submit
+        </button>
+      </form>
+      <p class="text-xl text-green-500">{{support_msg}}</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        try {
+            // Fetch both recent and upcoming data concurrently
+            const [upcomingResponse] = await Promise.all([
+                fetch("{{ baseurl }}/profile/table")
+            ]);
+            // Extract data from the responses
+            const upcomingData = await upcomingResponse.text();
+            // Update upcoming fixture container
+            const upcomingContainer = document.getElementById("upcomingfixturecontainer");
+            upcomingContainer.classList.remove("flex", "items-center");
+            upcomingContainer.innerHTML = upcomingData;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    });
+</script>

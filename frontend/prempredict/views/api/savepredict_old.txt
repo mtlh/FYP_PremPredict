@@ -1,0 +1,31 @@
+from django.db import connection
+
+for match_id, scores in merged_data.items():
+   with connection.cursor() as cursor:
+        cursor.execute(f"SELECT id FROM prempredict_userprediction WHERE match_id = %s AND user_id = %s;", [match_id, user_id])
+        user_prediction_id = cursor.fetchone()[0] if cursor.rowcount > 0 else None
+        if user_prediction_id is not None:
+            # Update existing UserPrediction
+            cursor.execute("""
+                UPDATE prempredict_userprediction
+                SET homescore = %s, awayscore = %s, date = CURRENT_DATE
+                WHERE id = %s;
+             """, [scores['home'], scores['away'], user_prediction_id])
+        else:
+            # Insert new UserPrediction
+            cursor.execute("""
+                INSERT INTO prempredict_userprediction (match_id, user_id, homescore, awayscore, date)
+#                 VALUES (%s, %s, %s, %s, CURRENT_DATE);
+#             """, [match_id, user_id, scores['home'], scores['away']])
+
+def make_column_nullable(table_name, column_name):
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"ALTER TABLE {table_name} ALTER COLUMN {column_name} DROP NOT NULL;"
+                )
+
+        # Replace 'prempredict_userprediction' and 'matchid_type_id' with your actual table and column names
+        table_name = 'prempredict_userprediction'
+        column_name = 'matchid_type_id'
+
+        make_column_nullable(table_name, column_name)

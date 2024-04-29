@@ -1,0 +1,25 @@
+Run all tests:
+python manage.py test ./prempredict/tests/
+
+Model Tests:
+python manage.py test ./prempredict/tests/model
+- Creation
+- Default values
+- Primary key
+- Select
+- Update
+- Delete
+
+Url Tests:
+python manage.py test ./prempredict/tests/url
+- Status code
+- Correct template rendered
+- Template content
+- Template name
+- Context passed
+
+Function Tests:
+python manage.py test ./prempredict/tests/function
+
+LOAD CURRENT DB DATA:
+python -Xutf8 manage.py dumpdata  prempredict > prempredict/tests/test_data.json
