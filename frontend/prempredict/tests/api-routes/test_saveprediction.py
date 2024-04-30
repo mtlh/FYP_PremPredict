@@ -44,3 +44,54 @@ class SavePredictApiEndpoint(TestCase):
         self.assertIsInstance(response.content, bytes)
         self.assertEqual(response.content.decode('utf-8'), 'Updated your predictions!')
 
+    def test_endpoint_no_auth(self):
+        currentMatchday = getGameweekDeadline()["matchday"]
+        games = PremGames.objects.filter(matchday=currentMatchday).all()
+        formdata_example = dict()
+        for game in games:
+            formdata_example["homescore"+str(game.matchid)] = random.randint(1, 5)
+            formdata_example["awayscore"+str(game.matchid)] = random.randint(1, 5)
+
+        response = self.client.post('/predict/save', formdata_example)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.content, bytes)
+        self.assertEqual(response.content.decode('utf-8'), 'User not authenticated')
+
+    def test_endpoint_no_param(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post('/predict/save')
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.content, bytes)
+        self.assertEqual(response.content.decode('utf-8'), 'Please provide some data')
+
+    def test_endpoint_empty_param(self):
+        formdata_example = dict()
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post('/predict/save', formdata_example)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.content, bytes)
+        self.assertEqual(response.content.decode('utf-8'), 'Given data is invalid')
+
+    def test_endpoint_invalid_param(self):
+        formdata_example = "test"
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post('/predict/save', formdata_example)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.content, bytes)
+        self.assertEqual(response.content.decode('utf-8'), 'Given data is invalid')
+
+    def test_endpoint_incomplete_games(self):
+        currentMatchday = getGameweekDeadline()["matchday"]
+        games = PremGames.objects.filter(matchday=currentMatchday).all()
+        formdata_example = dict()
+        for game in games:
+            formdata_example["homescore"+str(game.matchid)] = random.randint(1, 5)
+            formdata_example["awayscore"+str(game.matchid)] = random.randint(1, 5)
+        formdata_example["awayscore"+str(game.matchid)] = ""
+
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post('/predict/save', formdata_example)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.content, bytes)
+        self.assertEqual(response.content.decode('utf-8'), 'Please refresh to get the newest games and try again.')
+

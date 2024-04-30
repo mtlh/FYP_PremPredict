@@ -13,22 +13,15 @@ model = load(filename)
 
 # Train model
 model, X_test, y_test, y_pred, accuracy, report = train()
-
-# Save the trained model
 jb.dump(model, filename)
 
-# Print the evaluation metrics
 print(f"Accuracy: {accuracy}")
 print("Classification Report:")
 print(report)
 
-# Example of using the trained model for prediction
-new_data = np.array([[5.1, 3.5, 1.4, 0.2]])  # Example new data point
-
-new_data_scaled = StandardScaler().fit_transform(new_data)  # Scale the new data
-
+new_data = np.array([[5.1, 3.5, 1.4, 0.2]])
+new_data_scaled = StandardScaler().fit_transform(new_data)
 prediction = predict(model, new_data_scaled)
-
 print(f"Prediction for new data: {prediction}")
 
 UpdateDB()
@@ -68,8 +61,6 @@ df = pd.DataFrame(data)
 
 # Concatenate home_team and away_team data
 all_teams = pd.concat([df['home_team'], df['away_team']])
-
-# Initialize LabelEncoder
 label_encoder = LabelEncoder()
 
 # Fit LabelEncoder on concatenated home_team and away_team data
@@ -78,14 +69,10 @@ label_encoder.fit(all_teams)
 # Encode team names using LabelEncoder
 df['home_team_encoded'] = label_encoder.transform(df['home_team'])
 df['away_team_encoded'] = label_encoder.transform(df['away_team'])
-
-# Drop original team name columns
 df.drop(['home_team', 'away_team'], axis=1, inplace=True)
 
 # Determine match outcomes: 0 for draw, 1 for home team win, 2 for away team win
 df['outcome'] = df.apply(lambda row: 0 if row['home_goals'] == row['away_goals'] else 1 if row['home_goals'] > row['away_goals'] else 2, axis=1)
-
-# Split data into features (X) and labels (y)
 X = df[['home_team_encoded', 'away_team_encoded', 'home_goals', 'away_goals']].values
 y = df['outcome'].values
 
@@ -104,28 +91,21 @@ for x in range(0, 500):
     new_match = {
         'home_team': ['Sheffield United'],
         'away_team': ['Man City'],
-        'home_goals': [0],  # You may input an expected value or leave it as 0 if unknown
-        'away_goals': [0]   # You may input an expected value or leave it as 0 if unknown
+        'home_goals': [0],
+        'away_goals': [0]
     }
-    
-    # Convert new match data to DataFrame
     df_new_match = pd.DataFrame(new_match)
     
-    # Encode team names using LabelEncoder (using the same label encoder instance)
+    # Encode team names
     df_new_match['home_team_encoded'] = label_encoder.transform(df_new_match['home_team'])
     df_new_match['away_team_encoded'] = label_encoder.transform(df_new_match['away_team'])
-    
-    # Drop original team name columns
     df_new_match.drop(['home_team', 'away_team'], axis=1, inplace=True)
     
     # Extract features for the new match
     X_new_match = df_new_match[['home_team_encoded', 'away_team_encoded', 'home_goals', 'away_goals']].values
     prediction_new_match = model.predict(X_new_match)
     
-    # Add minor random element
     prediction_new_match += random.randint(-1, 1)
-    
-    # Clip prediction to valid range (0 for draw, 1 for home win, 2 for away win)
     prediction_new_match = max(0, min(2, prediction_new_match))
     
     # Print prediction
@@ -143,11 +123,9 @@ threshold = 50
 # Calculate the difference between home wins and away wins
 diff_hw_aw = abs(counts['hw'] - counts['aw'])
 
-# Decide on the final prediction
 if diff_hw_aw <= threshold:
-    final_prediction = 'draw'  # Predict a draw for inconclusive matches
+    final_prediction = 'draw'
 else:
-    # Predict based on the majority class
     final_prediction = max(counts, key=counts.get)
 
 print("Final Prediction:", final_prediction)

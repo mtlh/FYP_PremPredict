@@ -3,7 +3,7 @@
 ### Environment Variables
 Add the following to a .env file.
 ```sh
-DATABASE_URL='' # Your database connection string
+DATABASE_URL='' # Your database connection string (from cockroachDB)
 FBAPI_KEY='' # Football-data ApiKey 
 BASE_URL='http://127.0.0.1:8000/' # URL of local/production index route
 SECRET_KEY='' # A random string, generate one yourself

@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from testing.types.team import team
+from ..types.team import team
 
 class standings:
     def __init__(self, type: str, group: Optional[None], stage: str, table: List[dict]):

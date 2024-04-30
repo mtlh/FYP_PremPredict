@@ -2,7 +2,7 @@ Run all tests:
 python manage.py test ./prempredict/tests/
 
 Model Tests:
-python manage.py test ./prempredict/tests/model
+python manage.py test ./prempredict/tests/models
 - Creation
 - Default values
 - Primary key
@@ -10,8 +10,15 @@ python manage.py test ./prempredict/tests/model
 - Update
 - Delete
 
+Api Route Tests:
+python manage.py test ./prempredict/tests/api-routes
+- Status code
+- Request parameters
+- Authentication
+- Result
+
 Url Tests:
-python manage.py test ./prempredict/tests/url
+python manage.py test ./prempredict/tests/template-routes
 - Status code
 - Correct template rendered
 - Template content
@@ -19,7 +26,7 @@ python manage.py test ./prempredict/tests/url
 - Context passed
 
 Function Tests:
-python manage.py test ./prempredict/tests/function
+python manage.py test ./prempredict/tests/functions
 
 LOAD CURRENT DB DATA:
 python -Xutf8 manage.py dumpdata  prempredict > prempredict/tests/test_data.json

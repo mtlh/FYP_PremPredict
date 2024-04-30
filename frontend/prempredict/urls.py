@@ -91,6 +91,6 @@ urlpatterns = [
     path('load/userscores/', UpdateUserScores.as_view(), name='Score User predictions'),
     path('load/aiscores/', UpdateAIScores.as_view(), name='Score AI predictions'),
     path('load/leaderboard/', UpdateLeaderboard.as_view(), name='Update leaderboard positions'),
-    path('load/createuser/<int:amount>/', CreatePredictionUser.as_view(), name='Update leaderboard positions'),
+    path('load/createuser/<int:amount>/', CreatePredictionUser.as_view(), name='Create Prediction Users'),
 
 ]

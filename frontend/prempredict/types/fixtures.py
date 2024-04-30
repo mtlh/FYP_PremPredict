@@ -1,6 +1,6 @@
 from typing import List, Optional, Union
 
-from testing.types.team import competition, referee, team
+from ..types.team import competition, referee, team
 
 class score:
     def __init__(self, winner: str, duration: str, fullTime: dict, halfTime: dict):

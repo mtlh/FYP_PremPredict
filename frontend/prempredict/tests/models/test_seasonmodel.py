@@ -17,17 +17,17 @@ class PremSeasonInfoCRUDTest(TestCase):
         # Create a season without specifying certain attributes
         season = PremSeasonInfo.objects.create()
         self.assertEqual(season.active, False)
-        self.assertEqual(season.currentMatchday, 1)  # Default value
-        self.assertEqual(season.winner, "null")  # Default value
+        self.assertEqual(season.currentMatchday, 1)
+        self.assertEqual(season.winner, "null")
         # Get the current datetime with timezone information
         current_datetime = timezone.now()
         # Assuming 'season' is your object with a 'startDate' and 'endDate' field
-        self.assertEqual(season.startDate.day, current_datetime.day)  # Check the day
-        self.assertEqual(season.startDate.month, current_datetime.month)  # Check the month
-        self.assertEqual(season.startDate.year, current_datetime.year)  # Check the year
-        self.assertEqual(season.endDate.day, current_datetime.day)  # Check the day
-        self.assertEqual(season.endDate.month, current_datetime.month)  # Check the month
-        self.assertEqual(season.endDate.year, current_datetime.year)  # Check the year
+        self.assertEqual(season.startDate.day, current_datetime.day)
+        self.assertEqual(season.startDate.month, current_datetime.month)
+        self.assertEqual(season.startDate.year, current_datetime.year)
+        self.assertEqual(season.endDate.day, current_datetime.day)
+        self.assertEqual(season.endDate.month, current_datetime.month)
+        self.assertEqual(season.endDate.year, current_datetime.year)
 
     def test_primary_key(self):
         # Retrieve the object from the database
