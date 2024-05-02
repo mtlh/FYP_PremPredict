@@ -8,14 +8,25 @@ BASE_URL='http://127.0.0.1:8000/' # URL of local/production index route
 ```
 
 ## Commands
-** Please ensure you are located in the predictionmodel folder
 
-### Launch model
+- Please ensure you are located in the "predictionmodel" folder and the virtual environment is activated before running any of the commands below.
+
+### Launch production model
 ```shell
 python main.py
 ```
 
-## Available data for previous games per season:
+### H2O Playground
+
+1. Open file h2o.py
+2. Open python terminal
+```shell
+python 
+```
+3. Copy and paste code into terminal to be executed
+
+
+## Available data for previous games within seasonal spreadsheets:
 
 ### Key to results data:
 - Div = League Division

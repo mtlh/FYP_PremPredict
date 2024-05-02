@@ -16,7 +16,8 @@ ADMIN_PASSWORD='' # Admin password
 ```
 
 ## Commands
-** Please ensure you are located in the frontend folder
+
+- Please ensure you are located in the "frontend" folder and the virtual environment is activated before running any of the commands below.
 
 ### Update Tailwindcss
 #### Tailwind Update
@@ -69,19 +70,26 @@ python manage.py runserver
 ```
 
 ### Tests 
+
+-  If tests fail due to "Error loading bootstrap-static route" please update the fantasy_headers variable with a new user agent within /views/load/load_api_season_competition.py file.
+
 #### Run all
 ```shell
 python manage.py test ./prempredict/tests/ 
 ```
 #### Models
 ```shell
-python manage.py test ./prempredict/tests/model
+python manage.py test ./prempredict/tests/models
 ```
-#### URLs
+#### Templates Routes
 ```shell
-python manage.py test ./prempredict/tests/url
+python manage.py test ./prempredict/tests/template-routes
 ```
 #### Functions
 ```shell
-python manage.py test ./prempredict/tests/function
+python manage.py test ./prempredict/tests/functions
+```
+#### Api Routes
+```shell
+python manage.py test ./prempredict/tests/api-routes
 ```

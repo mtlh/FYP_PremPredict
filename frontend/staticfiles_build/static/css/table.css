@@ -1,0 +1,19 @@
+.grid-container {display: grid;grid-template-columns: repeat(11, 1fr);grid-gap: 10px;}
+.grid-item {padding: 5px;text-align: center;}
+.span-2 {grid-column: span 2;}
+.span-3 {grid-column: span 3;}
+
+.dashed-green-line {
+    border: none;
+    border-top: 1px dotted rgb(34 197 94);
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+  }
+.dashed-red-line {
+    border: none;
+    border-top: 1px dotted #f00;
+    height: 1px;
+    width: 100%;
+  }

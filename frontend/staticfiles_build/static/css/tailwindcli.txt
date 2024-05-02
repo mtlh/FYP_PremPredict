@@ -1,0 +1,10 @@
+UPDATE:
+npx tailwindcss -i prempredict/static/css/main.css -o prempredict/static/css/tailwind.css --watch
+
+MINIFY: 
+npx tailwindcss -o ./prempredict/static/css/tailwind.css --minify
+
+COLLECTSTATIC:
+python manage.py collectstatic
+
+

@@ -5,8 +5,6 @@ frontend/prempredict/.venv
 predictionmodel/.env
 predictionmodel/.venv
 
-frontend/staticfiles_build
-
 frontend/prempredict/__pycache__
 frontend/prempredict/types/__pycache__
 frontend/prempredict/migrations/__pycache__
