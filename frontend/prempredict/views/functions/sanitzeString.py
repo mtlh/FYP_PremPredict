@@ -2,5 +2,8 @@ import html
 import re
 
 def cleanString(input):
-    input = re.sub(r'<script\b[^>]*>(.*?)</script>', '', input, flags=re.IGNORECASE)
+    try:
+        input = re.sub(r'<script\b[^>]*>(.*?)</script>', '', input, flags=re.IGNORECASE)
+    except:
+        input = ""
     return html.escape(str(input).strip())

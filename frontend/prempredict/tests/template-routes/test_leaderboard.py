@@ -14,11 +14,11 @@ class LeaderboardTests(TestCase):
 
     def test_template_name_correct(self):  
         response = self.client.get(reverse("Leaderboard"))
-        self.assertTemplateUsed(response, "leaderboard.html")
+        self.assertTemplateUsed(response, "leaderboard/leaderboard.html")
 
     def test_template_content(self):
         response = self.client.get(reverse("Leaderboard"))
-        self.assertContains(response, render_to_string('leaderboard.html'))
+        self.assertContains(response, render_to_string('leaderboard/leaderboard.html'))
 
     def test_context_given(self):
         # "expected" context = {
